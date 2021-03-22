@@ -386,6 +386,7 @@ function multiplayer() {
     var opponentScore = 0;
 
     var countdown = 0;
+    var feedback;
 
     function startCountdown() {
       countdown = 3;
@@ -458,8 +459,16 @@ function multiplayer() {
       ctx.fillText("Orange: " + opponentScore, canvas.width / 2, (canvas.height / 2) - 20);
     }
 
+    function drawFeedback() {
+      ctx.fillStyle = "#DC143C";
+      ctx.font = "32px Arial";
+      ctx.textAlign = "start";
+      ctx.fillText(feedback, 10, 35);
+    }
+
     function draw() {
       if (!gamePlaying) return;
+      if (feedback) drawFeedback();
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -541,10 +550,11 @@ function multiplayer() {
     });
     socket.on('opponentTabOut', function() {
       gameActive = false;
-      feedback = "Your opponent is inactive, please wait."
+      feedback = "Your opponent is inactive, please wait.";
     });
     socket.on('opponentTabIn', function() {
       startCountdown();
+      feedback = "";
       gameActive = true;
     });
 
