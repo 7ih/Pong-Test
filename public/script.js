@@ -364,11 +364,12 @@ function multiplayer() {
   socket.on('start', function(ballData) {
     if (document.visibilityState === "hidden") socket.emit('tabOut');
     gameActive = true;
+    receiver = ballData.isReceiver;
 
     var x = canvas.width / ballData.ballX;
     var y = canvas.height / 2;
     var dx = 8;
-    var dy = (ballData.isReceiver ? 6 : -6);
+    var dy = (receiver ? 6 : -6);
 
     var ballRadius = 20;
     var ballColor = "red";
