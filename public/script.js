@@ -361,14 +361,14 @@ function multiplayer() {
     exitMatch("Your opponent disconnected.");
   });
 
-  socket.on('start', function(receiver, ballX) {
+  socket.on('start', function(ballData) {
     if (document.visibilityState === "hidden") socket.emit('tabOut');
     gameActive = true;
 
-    var x = canvas.width / ballX;
+    var x = canvas.width / ballData.ballX;
     var y = canvas.height / 2;
     var dx = 8;
-    var dy = (receiver ? 6 : -6);
+    var dy = (ballData.isReceiver ? 6 : -6);
 
     var ballRadius = 20;
     var ballColor = "red";
