@@ -460,7 +460,6 @@ function multiplayer() {
     }
 
     function drawFeedback() {
-      console.log(feedback);
       ctx.font = "32px Arial";
       ctx.fillStyle = "#DC143C";
       ctx.textAlign = "start";
@@ -468,10 +467,10 @@ function multiplayer() {
     }
 
     function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
       if (!gamePlaying) return;
       if (feedback) drawFeedback();
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       drawPaddles();
 
@@ -555,7 +554,7 @@ function multiplayer() {
     });
     socket.on('opponentTabIn', function() {
       startCountdown();
-      feedback = "";
+      feedback = null;
       gameActive = true;
     });
 
