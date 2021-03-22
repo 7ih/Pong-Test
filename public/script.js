@@ -460,6 +460,7 @@ function multiplayer() {
     }
 
     function drawFeedback() {
+      alert();
       ctx.fillStyle = "#DC143C";
       ctx.font = "32px Arial";
       ctx.textAlign = "start";
