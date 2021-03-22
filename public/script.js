@@ -386,7 +386,7 @@ function multiplayer() {
     var opponentScore = 0;
 
     var countdown = 0;
-    var feedback = "";
+    var feedback;
 
     function startCountdown() {
       countdown = 3;
@@ -460,9 +460,9 @@ function multiplayer() {
     }
 
     function drawFeedback() {
-      alert();
-      ctx.fillStyle = "#DC143C";
+      console.log(feedback);
       ctx.font = "32px Arial";
+      ctx.fillStyle = "#DC143C";
       ctx.textAlign = "start";
       ctx.fillText(feedback, 10, 35);
     }
