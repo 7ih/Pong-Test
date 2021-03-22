@@ -386,7 +386,7 @@ function multiplayer() {
     var opponentScore = 0;
 
     var countdown = 0;
-    var feedback;
+    var feedback = "";
 
     function startCountdown() {
       countdown = 3;
