@@ -6,34 +6,26 @@ var io = require('socket.io')(http);
 var port = process.env.PORT || 3000;
 var queue = {};
 
-// for usernames
-var firstNames = ['Silly', 'Quirky', 'Moody', 'Antsy', 'Mysterious'];
-var lastNames = ['Snake', 'Goose', 'Birb', 'Dino', 'Pickle'];
-
 // send data to user
 app.use(express.static(__dirname + '/public'));
 
 io.on('connection', function(socket) {
   socket.on('join', function() {
     socket.emit('serverMsg', `Searching for an opponent...`);
-    username = randomizeName();
-    queue[username] = socket;
-    socket.username = username;
-    console.log(username + ' connected');
+    queue[socket.id] = socket;
+    console.log(socket.id + ' connected');
     matchmaking();
   });
   socket.on('disconnect', function() {
     try {
-      delete queue[username];
-      console.log(username + ' disconnected');
-      io.to(socket.opponentID).emit('opponentDc');
+      delete queue[socket.id];
+      console.log(socket.id + ' disconnected');
+      io.to(socket.opponent).emit('opponentDc');
     } catch (e) {}
   });
   socket.on('reconnect', function() {
-    username = randomizeName();
-    queue[username] = socket;
-    socket.username = username;
-    console.log(username + ' reconnected')
+    queue[socket.id] = socket;
+    console.log(socket.id + ' reconnected')
     matchmaking();
   });
 
@@ -41,50 +33,44 @@ io.on('connection', function(socket) {
     if (Object.keys(queue).length <= 1) {
       socket.emit('serverMsg', 'No one is online right now. Feel free to wait for another player to join.');
     } else {
-      var otherUsers = Object.keys(queue).filter(user => user !== socket.username);
+      var otherUsers = Object.keys(queue).filter(id => id !== socket.id);
       var opponent = otherUsers[Math.floor(Math.random() * otherUsers.length)];
-      socket.opponentID = queue[opponent].id;
-      queue[opponent].opponentID = socket.id;
+      socket.opponent = opponent;
+      queue[opponent].opponent = socket.id;
 
       socket.emit('serverMsg', `Connecting to ${opponent}...`);
-      io.to(socket.opponentID).emit('serverMsg', `Connecting to ${socket.username}...`)
+      io.to(socket.opponent).emit('serverMsg', `Connecting to ${socket.id}...`)
 
       queue[opponent].inQueue = false;
       socket.inQueue = false;
 
-      delete queue[socket.username]; 
+      delete queue[socket.id]; 
       delete queue[opponent];
 
       ballPosX = Math.random() * 4 + 1.5;
 
-      socket.emit('start', true, ballPosX);
-      io.to(socket.opponentID).emit('start', false, ballPosX);
+      socket.emit('start', {isReceiver: true, ballX: ballPosX});
+      io.to(socket.opponent).emit('start', {isReceiver: false, ballX: ballPosX});
     }
   }
 
   socket.on('paddleMove', function(pos) {
-    io.to(socket.opponentID).emit('opponentMove', pos);
+    io.to(socket.opponent).emit('opponentMove', pos);
   });
   socket.on('hitBall', function(y, dx, dy) {
-    io.to(socket.opponentID).emit('opponentHitBall', y, dx, dy);
+    io.to(socket.opponent).emit('opponentHitBall', y, dx, dy);
   });
   socket.on('scored', function(ballX) {
-    io.to(socket.opponentID).emit('opponentScored', ballX);
+    io.to(socket.opponent).emit('opponentScored', ballX);
   });
   socket.on('tabOut', function() {
-    io.to(socket.opponentID).emit('opponentTabOut');
+    io.to(socket.opponent).emit('opponentTabOut');
   });
   socket.on('tabIn', function() {
-    io.to(socket.opponentID).emit('opponentTabIn');
+    io.to(socket.opponent).emit('opponentTabIn');
   });
 });
 
 http.listen(port, function() {
   console.log('listening on *:' + port);
 });
-
-function randomizeName() {
-  return  firstNames[Math.floor(Math.random() * firstNames.length)] + 
-          lastNames[Math.floor(Math.random() * lastNames.length)] + 
-          Math.floor(1000 + Math.random() * 9000);
-}
