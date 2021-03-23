@@ -9,13 +9,11 @@ var menuFontSize = 64;
 var modes = [
   sp = {
     text: 'Singleplayer',
-    start: () => { singleplayer(); },
     x: 0,
     y: 0
   },
   mp = {
     text: 'Multiplayer',
-    start: () => { multiplayer(); },
     x: 0,
     y: 0
   }
@@ -75,7 +73,6 @@ function showMenu() {
       text: m.text, 
       x: m.x, 
       y: m.y,
-      font: "Comic Sans MS, Comic Sans, Cursive",
       size: "64px"
     });
   }
@@ -84,7 +81,7 @@ function showMenu() {
   canvas.addEventListener('click', menuButtonClick);
 }
 
-function singleplayer() {
+sp.start = function {
 
   var gameActive = false;
   var score = 0;
@@ -193,13 +190,20 @@ function singleplayer() {
   }
 
   function drawScore() {
-    ctx.font = "32px Arial";
-    ctx.fillStyle = "#0095DD";
-    ctx.textAlign = "center";
-    ctx.fillText("Score: " + score, canvas.width / 2, (canvas.height / 2) - 10);
-    ctx.font = "16px Arial";
-    ctx.textAlign = "start";
-    ctx.fillText("Highscore: " + highscore, 10, 20);
+    text({
+      text: "Score: " + score, 
+      x: canvas.width / 2, 
+      y: canvas.height / 2 - 10,
+      size: "32px",
+      color: "#0095DD",
+      align: "center"
+    });
+    text({
+      text: "Highscore: " + highscore, 
+      x: 10, 
+      y: 20,
+      size: "16px"
+    });
   }
 
   function restart() {
@@ -258,15 +262,27 @@ function singleplayer() {
 
     if (y > canvas.height - ballRadius - paddleElevation - paddleHeight + 10) {
       gameActive = false;
-      ctx.font = "32px Arial";
-      ctx.fillStyle = "#DC143C";
-      ctx.textAlign = "center";
       if (score > highscore) {
         highscore = score;
         document.cookie = `highscore=${highscore}; expires=Tue, 19 Jan 2038 03:14:07 UTC`;
-        ctx.fillText("New Highscore: " + highscore, canvas.width / 2, (canvas.height / 2) + 30);
+        text({
+          text: "New Highscore: " + highscore, 
+          x: canvas.width / 2, 
+          y: canvas.height / 2 + 30,
+          size: "32px",
+          align: "center",
+          color: "#DC143C"
+        });
       }
-      else ctx.fillText("You died.", canvas.width / 2, (canvas.height / 2) + 30);
+      else  
+        text({
+          text: "You died.", 
+          x: canvas.width / 2, 
+          y: canvas.height / 2 + 30,
+          size: "32px",
+          align: "center",
+          color: "#DC143C"
+        });
       setTimeout(restart, 1500);
     }
 
@@ -307,17 +323,20 @@ function singleplayer() {
   requestAnimationFrame(draw);
 }
 
-function multiplayer() {
+mp.start = function {
   var gamePlaying = true;
   var gameActive = undefined;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.font = "32px Arial";
-  ctx.fillStyle = "#DC143C";
-  ctx.textAlign = "start";
   var messageCount = 1;
   function matchMsg(msg) {
-    ctx.fillText(msg, 10, 35 * messageCount);
+    text({
+      text: msg, 
+      x: 10, 
+      y: 35*messageCount,
+      size: "32px",
+      color: "#DC143C"
+    });
     messageCount++;
   }
 
@@ -330,10 +349,13 @@ function multiplayer() {
     canvas.removeEventListener("click", pointerLock);
     document.exitPointerLock();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#DC143C";
-    ctx.font = "32px Arial";
-    ctx.textAlign = "start";
-    ctx.fillText(msg, 10, 35);
+    text({
+      text: msg, 
+      x: 10, 
+      y: 35,
+      size: "32px",
+      color: "#DC143C"
+    });
     setTimeout(showMenu, 2000);
   }
 
@@ -393,12 +415,15 @@ function multiplayer() {
     }
 
     function drawCountdown() {
-      ctx.font = "64px Arial";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "#0095DD";
-      if (countdown == 3) ctx.fillText("3", canvas.width / 2, canvas.height / 2 + 180);
-      if (countdown == 2) ctx.fillText("2", canvas.width / 2, canvas.height / 2 + 180);
-      if (countdown == 1) ctx.fillText("1", canvas.width / 2, canvas.height / 2 + 180);
+      if (countdown > 0)  
+        text({
+          text: countdown, 
+          x: canvas.width / 2, 
+          y: canvas.height / 2 + 180,
+          size: "64px",
+          align: "center",
+          color: "#0095DD"
+        });
     }
 
     function drawBall() {
@@ -446,19 +471,32 @@ function multiplayer() {
     }
 
     function drawScore() {
-      ctx.font = "32px Arial";
-      ctx.textAlign = "center";
-      ctx.fillStyle = "#14f500";
-      ctx.fillText("Green: " + score, canvas.width / 2, (canvas.height / 2) + 20);
-      ctx.fillStyle = "#FF6347";
-      ctx.fillText("Orange: " + opponentScore, canvas.width / 2, (canvas.height / 2) - 20);
+      text({
+        text: "Green: " + score, 
+        x: canvas.width / 2, 
+        y: canvas.height / 2 + 20,
+        size: "32px",
+        align: "center",
+        color: "#14f500"
+      });
+      text({
+        text: "Orange: " + opponentScore, 
+        x: canvas.width / 2, 
+        y: canvas.height / 2 - 20,
+        size: "32px",
+        align: "center",
+        color: "#FF6347"
+      });
     }
 
     function drawFeedback() {
-      ctx.font = "32px Arial";
-      ctx.fillStyle = "#DC143C";
-      ctx.textAlign = "start";
-      ctx.fillText(feedback, 10, 35);
+      text({
+        text: feedback, 
+        x: 10, 
+        y: 35,
+        size: "32px",
+        color: "#DC143C"
+      });
     }
 
     function draw() {
