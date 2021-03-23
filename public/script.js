@@ -467,9 +467,10 @@ function multiplayer() {
     }
 
     function draw() {
+      if (!gamePlaying) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      if (!gamePlaying) return;
       if (feedback) drawFeedback();
 
       drawPaddles();
