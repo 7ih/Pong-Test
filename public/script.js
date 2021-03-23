@@ -73,6 +73,7 @@ function showMenu() {
       text: m.text, 
       x: m.x, 
       y: m.y,
+      font: "Comic Sans MS, Comic Sans, Cursive",
       size: "64px"
     });
   }
@@ -81,7 +82,7 @@ function showMenu() {
   canvas.addEventListener('click', menuButtonClick);
 }
 
-sp.start = function {
+sp.start = function() {
 
   var gameActive = false;
   var score = 0;
@@ -323,7 +324,7 @@ sp.start = function {
   requestAnimationFrame(draw);
 }
 
-mp.start = function {
+mp.start = function() {
   var gamePlaying = true;
   var gameActive = undefined;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
