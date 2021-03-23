@@ -203,8 +203,8 @@ sp.start = function() {
       text: "Highscore: " + highscore, 
       x: 10, 
       y: 20,
-      size: "16px"
-      color: "#0095DD",
+      size: "16px",
+      color: "#0095DD"
     });
   }
 
