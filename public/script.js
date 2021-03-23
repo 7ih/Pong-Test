@@ -204,6 +204,7 @@ sp.start = function() {
       x: 10, 
       y: 20,
       size: "16px"
+      color: "#0095DD",
     });
   }
 
