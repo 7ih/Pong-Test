@@ -72,7 +72,6 @@ io.on('connection', function(socket) {
       io.to(socket.opponent).emit('opponentTabIn');
     });
   }
-  console.log(socket.game);
 });
 
 http.listen(port, function() {
