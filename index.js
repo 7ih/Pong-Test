@@ -30,9 +30,7 @@ io.on('connection', function(socket) {
   });
 
   function matchmaking() {
-    if (Object.keys(queue).length <= 1) {
-      socket.emit('serverMsg', 'No one is online right now. Feel free to wait for another player to join.');
-    } else {
+    if (Object.keys(queue).length > 1) {
       var otherUsers = Object.keys(queue).filter(id => id !== socket.id);
       var opponent = otherUsers[Math.floor(Math.random() * otherUsers.length)];
       socket.opponent = opponent;
@@ -44,6 +42,9 @@ io.on('connection', function(socket) {
       queue[opponent].inQueue = false;
       socket.inQueue = false;
 
+      queue[opponent].game();
+      socket.game();
+
       delete queue[socket.id]; 
       delete queue[opponent];
 
@@ -54,21 +55,24 @@ io.on('connection', function(socket) {
     }
   }
 
-  socket.on('paddleMove', function(pos) {
-    io.to(socket.opponent).emit('opponentMove', pos);
-  });
-  socket.on('hitBall', function(y, dx, dy) {
-    io.to(socket.opponent).emit('opponentHitBall', y, dx, dy);
-  });
-  socket.on('scored', function(ballX) {
-    io.to(socket.opponent).emit('opponentScored', ballX);
-  });
-  socket.on('tabOut', function() {
-    io.to(socket.opponent).emit('opponentTabOut');
-  });
-  socket.on('tabIn', function() {
-    io.to(socket.opponent).emit('opponentTabIn');
-  });
+  socket.game = function() {
+    socket.on('paddleMove', function(pos) {
+      io.to(socket.opponent).emit('opponentMove', pos);
+    });
+    socket.on('hitBall', function(y, dx, dy) {
+      io.to(socket.opponent).emit('opponentHitBall', y, dx, dy);
+    });
+    socket.on('scored', function(ballX) {
+      io.to(socket.opponent).emit('opponentScored', ballX);
+    });
+    socket.on('tabOut', function() {
+      io.to(socket.opponent).emit('opponentTabOut');
+    });
+    socket.on('tabIn', function() {
+      io.to(socket.opponent).emit('opponentTabIn');
+    });
+  }
+  console.log(socket.game);
 });
 
 http.listen(port, function() {
