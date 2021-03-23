@@ -6,14 +6,6 @@ var buttonWidth = 364;
 var buttonHeight = 86;
 var menuFontSize = 64;
 
-function rect(prop, color) {
-  ctx.beginPath();
-  ctx.rect(prop.x, prop.y, prop.w, prop.h);
-  ctx.fillStyle = color;
-  ctx.fill();
-  ctx.closePath();
-}
-
 var modes = [
   sp = {
     text: 'Singleplayer',
@@ -68,8 +60,6 @@ function showMenu() {
   logo.src = 'img/logo.png';
   logo.onload = function() { ctx.drawImage(logo, canvas.width / 2, 20); }
 
-  ctx.font = "64px Comic Sans MS, Cursive";
-  ctx.textAlign = "start";
   for (let i = 0; i < modes.length; i++) {
     var m = modes[i];
     m.x = 64;
@@ -80,9 +70,14 @@ function showMenu() {
       y: m.y - menuFontSize,
       w: buttonWidth,
       h: buttonHeight,
-    }, hlColor)
-    ctx.fillStyle = "black";
-    ctx.fillText(`${m.text}`, m.x, m.y);
+    }, hlColor);
+    text({
+      text: m.text, 
+      x: m.x, 
+      y: m.y,
+      font: "Comic Sans MS, Comic Sans, Cursive",
+      size: "64px"
+    });
   }
 
   canvas.addEventListener('mousemove', menuButtonHover);
@@ -567,5 +562,19 @@ function multiplayer() {
 
 canvas.oncontextmenu = function() { return false; }
 document.body.onresize = function() { bounds = canvas.getBoundingClientRect(); }
+
+function rect(prop, color) {
+  ctx.beginPath();
+  ctx.rect(prop.x, prop.y, prop.w, prop.h);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.closePath();
+}
+function text(prop) {
+  ctx.font = `${prop.size} ${prop.font ? prop.font : "Arial"}`;
+  ctx.fillStyle = prop.color ? prop.color : "black";
+  ctx.textAlign = prop.align ? prop.align : "start";
+  ctx.fillText(prop.text, prop.x, prop.y);
+}
 
 showMenu();
