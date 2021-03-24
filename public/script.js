@@ -317,7 +317,9 @@ sp.start = function() {
     if (gameActive) {
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
       console.log("finger pos: " + e.changedTouches[0].clientX/bounds.width*canvas.width + " || Start pos: " + touchStartX + " || dist: " + dist);
-      paddleX = posX + dist;
+
+      posX += dist;
+      paddleX = posX;
     }
     e.preventDefault();
   }
@@ -334,7 +336,7 @@ sp.start = function() {
 
   canvas.addEventListener('mousemove', movePaddleMouse);
   canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
-  canvas.addEventListener('touchstart', movePaddleTouch);
+  canvas.addEventListener('touchmove', movePaddleTouch);
   canvas.addEventListener('click', pointerLock);
   document.addEventListener('pointerlockchange', pauseOnUnfocus);
 
