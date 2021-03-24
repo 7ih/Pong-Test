@@ -85,6 +85,7 @@ function showMenu() {
 sp.start = function() {
 
   var gameActive = false;
+  var gameCanRun = true;
   var score = 0;
   var highscore = (
     document.cookie.split('; ').find(row => row.startsWith('highscore='))
@@ -106,8 +107,6 @@ sp.start = function() {
   var paddleHeight = 20;
   var paddleWidth = 200;
   var paddleElevation = 20;
-  var paddleMargin = 20;
-  var paddleSpeed = 15;
   var paddleX = (canvas.width - paddleWidth) / 2;
 
   var brickRowCount = 3;
@@ -224,6 +223,7 @@ sp.start = function() {
       }
     }
 
+    gameCanRun = tre
     requestAnimationFrame(draw);
   }
 
@@ -264,6 +264,7 @@ sp.start = function() {
 
     if (y > canvas.height - ballRadius - paddleElevation - paddleHeight + 10) {
       gameActive = false;
+      gameCanRun = false;
       if (score > highscore) {
         highscore = score;
         document.cookie = `highscore=${highscore}; expires=Tue, 19 Jan 2038 03:14:07 UTC`;
@@ -306,7 +307,7 @@ sp.start = function() {
     }
   }
   function getStartXTouch(e) {
-    if (!gameActive) {
+    if (!gameActive && gameCanRun) {
       gameActive = true;
       requestAnimationFrame(draw);
     }
@@ -316,15 +317,13 @@ sp.start = function() {
   function movePaddleTouch(e){
     if (gameActive) {
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
-      console.log("finger pos: " + e.changedTouches[0].clientX/bounds.width*canvas.width + " || Start pos: " + touchStartX + " || dist: " + dist);
 
-      posX += dist;
-      paddleX = posX;
+      paddleX = posX + dist;
     }
     e.preventDefault();
   }
   function pointerLock() {
-    if (!gameActive) {
+    if (!gameActive && gameCanRun) {
       gameActive = true;
       requestAnimationFrame(draw);
     }
