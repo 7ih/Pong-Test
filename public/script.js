@@ -7,10 +7,10 @@ var buttonHeight = 86;
 var buttonFontSize = 64;
 var buttonScreenTopMargin = 150
 
-var optionsButtonWidth = 182;
-var optionsButtonHeight = 52;
+var optionsButtonWidth = 200;
+var optionsButtonHeight = 36;
 var optionsButtonFontSize = 32;
-var optionsButtonScreenTopMargin = 500
+var optionsButtonScreenTopMargin = 550
 
 var buttonScreenLeftMargin = 64;
 var buttonMargin = 10;
@@ -78,7 +78,7 @@ function menuButtonClick(e) {
   }
   for (let i = 0; i < options.length; i++) {
     var o = options[i];
-    if (pos.x > o.x && o.x < o.x + buttonWidth && pos.y > o.y - buttonFontSize && pos.y < o.y + buttonHeight - buttonFontSize) {
+    if (pos.x > o.x && o.x < o.x + optionsButtonWidth && pos.y > o.y - optionsButtonFontSize && pos.y < o.y + optionsButtonHeight - optionsButtonFontSize) {
       // open option?
     }
   }
@@ -98,7 +98,7 @@ function menuButtonHover(e) {
   }
   for (let i = 0; i < options.length; i++) {
     var o = options[i];
-    if (pos.x > o.x && pos.x < o.x + buttonWidth && pos.y > o.y - buttonFontSize && pos.y < o.y + buttonHeight - buttonFontSize) 
+    if (pos.x > o.x && pos.x < o.x + optionsButtonWidth && pos.y > o.y - optionsButtonFontSize && pos.y < o.y + optionsButtonHeight - optionsButtonFontSize) 
       buttonHover = true;
   }
   if (buttonHover) canvas.style.cursor = "pointer";
