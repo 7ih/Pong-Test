@@ -142,11 +142,10 @@ function showMenu() {
   var evenColor = true;
   for (let i = 0; i < options.length; i++) {
     if (i > 0) {
-      evenColor = !evenColor;
       if (i % 2 == 0) {
-        evenColor = !evenColor;
         optionsRow++;
       }
+      else evenColor = !evenColor;
     }
 
     var o = options[i];
