@@ -303,12 +303,14 @@ sp.start = function() {
       else if (posX > canvas.width) posX = -paddleWidth;
 
       paddleX = posX;
+      console.log("cursor move")
     }
   }
   function getStartXTouch(e) {
     if (!gameActive) gameActive = true;
     touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width;
     e.preventDefault();
+    console.log("touch")
   }
   function movePaddleTouch(e){
     if (gameActive) {
@@ -320,6 +322,7 @@ sp.start = function() {
       paddleX = posX;
     }
     e.preventDefault();
+    console.log("move")
   }
   function pointerLock() {
     if (!gameActive) {
@@ -327,9 +330,11 @@ sp.start = function() {
       requestAnimationFrame(draw);
     }
     if (document.pointerLockElement !== canvas) canvas.requestPointerLock();
+    console.log("pointer lock")
   }
   function pauseOnUnfocus() {
     if (document.pointerLockElement !== canvas) gameActive = false;
+    console.log("pause")
   }
 
   canvas.addEventListener('mousemove', movePaddleMouse);
