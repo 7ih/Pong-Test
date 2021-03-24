@@ -323,7 +323,7 @@ sp.start = function() {
   }
 
   canvas.addEventListener('mousemove', movePaddleMouse);
-  canvas.body.addEventListener('touchstart', movePaddleTouch);
+  canvas.addEventListener('touchstart', movePaddleTouch);
   canvas.addEventListener('click', pointerLock);
   document.addEventListener('pointerlockchange', pauseOnUnfocus);
 
@@ -582,7 +582,7 @@ mp.start = function() {
     }
 
     canvas.addEventListener('mousemove', paddleMoveMouse);
-    canvas.body.addEventListener('touchstart', paddleMoveTouch);
+    canvas.addEventListener('touchstart', paddleMoveTouch);
     document.addEventListener('visibilitychange', pauseOnPageBlur);
     canvas.addEventListener('click', pointerLock);
 
