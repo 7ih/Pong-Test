@@ -320,14 +320,8 @@ sp.start = function() {
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
       var pos = posX + dist;
 
-      if (pos < -paddleWidth) {
-        pos = canvas.width;
-        alert("left")
-      }
-      else if (pos > canvas.width) {
-        pos = -paddleWidth;
-        alert("right")
-      }
+      if (pos < -paddleWidth) pos = canvas.width;
+      else if (pos > canvas.width) pos = -paddleWidth;
 
       paddleX = pos;
     }
