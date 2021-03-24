@@ -4,7 +4,16 @@ var bounds = canvas.getBoundingClientRect();
 
 var buttonWidth = 364;
 var buttonHeight = 86;
-var menuFontSize = 64;
+var buttonFontSize = 64;
+var buttonScreenTopMargin = 150
+
+var optionsButtonWidth = 182;
+var optionsButtonHeight = 52;
+var optionsButtonFontSize = 32;
+var optionsButtonScreenTopMargin = 500
+
+var buttonScreenLeftMargin = 64;
+var buttonMargin = 10;
 
 var modes = [
   sp = {
@@ -19,6 +28,14 @@ var modes = [
   }
 ];
 
+var options = [
+  ps = {
+    text: "Paddle Speed",
+    x: 0,
+    y: 0
+  }
+]
+
 function menuButtonClick(e) {
   var pos = {
     x: e.clientX / bounds.width * canvas.width,
@@ -27,11 +44,17 @@ function menuButtonClick(e) {
 
   for (let i = 0; i < modes.length; i++) {
     var m = modes[i];
-    if (pos.x > m.x && pos.x < m.x + buttonWidth && pos.y > m.y - menuFontSize && pos.y < m.y + buttonHeight - menuFontSize) {
+    if (pos.x > m.x && pos.x < m.x + buttonWidth && pos.y > m.y - buttonFontSize && pos.y < m.y + buttonHeight - buttonFontSize) {
       canvas.removeEventListener('mousemove', menuButtonHover);
       canvas.removeEventListener('click', menuButtonClick);
       canvas.style.cursor = "default";
       m.start();
+    }
+  }
+  for (let i = 0; i < options.length; i++) {
+    var o = options[i];
+    if (pos.x > o.x && o.x < o.x + buttonWidth && pos.y > o.y - buttonFontSize && pos.y < o.y + buttonHeight - buttonFontSize) {
+      // open option?
     }
   }
 }
@@ -45,7 +68,13 @@ function menuButtonHover(e) {
   var buttonHover = false;
   for (let i = 0; i < modes.length; i++) {
     var m = modes[i];
-    if (pos.x > m.x && pos.x < m.x + buttonWidth && pos.y > m.y - menuFontSize && pos.y < m.y + buttonHeight - menuFontSize) buttonHover = true;
+    if (pos.x > m.x && pos.x < m.x + buttonWidth && pos.y > m.y - buttonFontSize && pos.y < m.y + buttonHeight - buttonFontSize) 
+      buttonHover = true;
+  }
+  for (let i = 0; i < options.length; i++) {
+    var o = options[i];
+    if (pos.x > o.x && pos.x < o.x + buttonWidth && pos.y > o.y - buttonFontSize && pos.y < o.y + buttonHeight - buttonFontSize) 
+      buttonHover = true;
   }
   if (buttonHover) canvas.style.cursor = "pointer";
   else canvas.style.cursor = "default";
@@ -60,12 +89,12 @@ function showMenu() {
 
   for (let i = 0; i < modes.length; i++) {
     var m = modes[i];
-    m.x = 64;
-    m.y = 150 + i * 96;
+    m.x = buttonScreenLeftMargin;
+    m.y = buttonScreenTopMargin + i * (buttonHeight + buttonMargin);
     var hlColor = (i % 2 == 0 ? "dodgerBlue" : "red");
     rect({
       x: m.x,
-      y: m.y - menuFontSize,
+      y: m.y - buttonFontSize,
       w: buttonWidth,
       h: buttonHeight,
     }, hlColor);
@@ -74,7 +103,38 @@ function showMenu() {
       x: m.x, 
       y: m.y,
       font: "Comic Sans MS, Comic Sans, Cursive",
-      size: "64px"
+      size: buttonFontSize + "px"
+    });
+  }
+
+  var optionsRow = 0;
+  var evenColor = true;
+  for (let i = 0; i < options.length; i++) {
+    if (i > 0) {
+      evenColor = !evenColor;
+      if (i % 2 == 0) {
+        evenColor = !evenColor;
+        optionsRow++;
+      }
+    }
+
+    var o = options[i];
+    o.x = buttonScreenLeftMargin + optionsRow*(optionsButtonWidth + buttonMargin);
+    o.y = (i % 2 == 0 ? optionsButtonScreenTopMargin : optionsButtonScreenTopMargin + optionsButtonHeight + buttonMargin);
+    var hlColor = (evenColor ? "dodgerBlue" : "red");
+
+    rect({
+      x: o.x,
+      y: o.y - optionsButtonFontSize,
+      w: optionsButtonWidth,
+      h: optionsButtonHeight,
+    }, hlColor);
+    text({
+      text: o.text, 
+      x: o.x, 
+      y: o.y,
+      font: "Comic Sans MS, Comic Sans, Cursive",
+      size: optionsButtonFontSize + "px"
     });
   }
 
@@ -595,8 +655,13 @@ mp.start = function() {
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
       var pos = posX + dist;
 
-      if (pos < -paddleWidth) pos = canvas.width;
-      else if (pos > canvas.width) pos = -paddleWidth;
+      if (pos < -paddleWidth) {
+        pos = canvas.width;
+        posX = canvas.width - dist;
+      } else if (pos > canvas.width) {
+        pos = -paddleWidth;
+        posX = -paddleWidth - dist;
+      }
 
       paddleX = pos;
       socket.emit('paddleMove', paddleX);
