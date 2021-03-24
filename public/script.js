@@ -323,11 +323,9 @@ sp.start = function() {
       if (pos < -paddleWidth) {
         pos = canvas.width;
         posX = canvas.width - dist;
-        console.log("left");
       } else if (pos > canvas.width) {
         pos = -paddleWidth;
         posX = -paddleWidth - dist;
-        console.log("right");
       }
 
       paddleX = pos;
