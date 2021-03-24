@@ -305,6 +305,11 @@ sp.start = function() {
       paddleX = posX;
     }
   }
+  function getStartXTouch(e) {
+    if (!gameActive) gameActive = true;
+    touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width;
+    e.preventDefault();
+  }
   function movePaddleTouch(e){
     if (gameActive) {
       posX = e.changedTouches[0].pageX;
@@ -328,7 +333,7 @@ sp.start = function() {
   }
 
   canvas.addEventListener('mousemove', movePaddleMouse);
-  canvas.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width; }); // get start position for touchmove
+  canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
   canvas.addEventListener('touchstart', movePaddleTouch);
   canvas.addEventListener('click', pointerLock);
   document.addEventListener('pointerlockchange', pauseOnUnfocus);
@@ -570,6 +575,10 @@ mp.start = function() {
         socket.emit('paddleMove', paddleX);
       }
     }
+    function getStartXTouch(e) {
+      touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width;
+      e.preventDefault();
+    }
     function paddleMoveTouch(e){
       var touchobj = e.changedTouches[0];
       var dist = touchobj.clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
@@ -593,7 +602,7 @@ mp.start = function() {
     }
 
     canvas.addEventListener('mousemove', paddleMoveMouse);
-    canvas.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width; }); // get start position for touchmove
+    canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
     canvas.addEventListener('touchstart', paddleMoveTouch);
     document.addEventListener('visibilitychange', pauseOnPageBlur);
     canvas.addEventListener('click', pointerLock);
