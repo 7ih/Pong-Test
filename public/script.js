@@ -309,7 +309,12 @@ sp.start = function() {
     if (gameActive) {
       posX = e.changedTouches[0].pageX;
       paddleX = posX;
+      var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
+
+      posX += dist;
+      paddleX = posX;
     }
+    e.preventDefault();
   }
   function pointerLock() {
     if (!gameActive) {
@@ -323,6 +328,7 @@ sp.start = function() {
   }
 
   canvas.addEventListener('mousemove', movePaddleMouse);
+  canvas.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width; }); // get start position for touchmove
   canvas.addEventListener('touchstart', movePaddleTouch);
   canvas.addEventListener('click', pointerLock);
   document.addEventListener('pointerlockchange', pauseOnUnfocus);
@@ -407,6 +413,7 @@ mp.start = function() {
     var opponentPaddleX = (canvas.width - paddleWidth) / 2;
 
     var posX = (canvas.width - paddleWidth) / 2;
+    var touchStartX = 0;
 
     var score = 0;
     var opponentScore = 0;
@@ -564,10 +571,14 @@ mp.start = function() {
       }
     }
     function paddleMoveTouch(e){
-      posX = e.changedTouches[0].pageX;
+      var touchobj = e.changedTouches[0];
+      var dist = touchobj.clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
 
+      posX += dist;
       paddleX = posX;
       socket.emit('paddleMove', paddleX);
+
+      e.preventDefault();
     }
     function pauseOnPageBlur() {
       if (document.visibilityState === "hidden") {
@@ -582,6 +593,7 @@ mp.start = function() {
     }
 
     canvas.addEventListener('mousemove', paddleMoveMouse);
+    canvas.addEventListener('touchstart', function(e){ touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width; }); // get start position for touchmove
     canvas.addEventListener('touchstart', paddleMoveTouch);
     document.addEventListener('visibilitychange', pauseOnPageBlur);
     canvas.addEventListener('click', pointerLock);
