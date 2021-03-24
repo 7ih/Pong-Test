@@ -311,6 +311,7 @@ sp.start = function() {
       gameActive = true;
       requestAnimationFrame(draw);
     }
+    posX = paddleX;
     touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width;
     e.preventDefault();
   }
@@ -336,7 +337,6 @@ sp.start = function() {
   canvas.addEventListener('mousemove', movePaddleMouse);
   canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
   canvas.addEventListener('touchmove', movePaddleTouch);
-  canvas.addEventListener('touchleave', function(){ posX = paddleX; console.log(posX); }); // keep pos consistent
   canvas.addEventListener('click', pointerLock);
   document.addEventListener('pointerlockchange', pauseOnUnfocus);
 
@@ -578,6 +578,7 @@ mp.start = function() {
       }
     }
     function getStartXTouch(e) {
+      posX = paddleX;
       touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width;
       e.preventDefault();
     }
@@ -603,7 +604,6 @@ mp.start = function() {
     canvas.addEventListener('mousemove', paddleMoveMouse);
     canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
     canvas.addEventListener('touchstart', paddleMoveTouch);
-    canvas.addEventListener('touchleave', function(){ posX = paddleX }); // keep pos consistent
     document.addEventListener('visibilitychange', pauseOnPageBlur);
     canvas.addEventListener('click', pointerLock);
 
