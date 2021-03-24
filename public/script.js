@@ -44,14 +44,11 @@ var options = [
         alert("I ASKED FOR A NUMBER");
         return;
       }
-
       var num = Math.round((+sign+Number.EPSILON)*100) / 100;
-
       if (num < 0.25 || num > 5) {
         alert("LEARN TO FOLLOW DIRECTIONS");
         return;
       }
-
       paddleSpeed = num;
       document.cookie = `pspeed=${num}; expires=Tue, 19 Jan 2038 03:14:07 UTC`;
     }
@@ -64,7 +61,7 @@ var options = [
       alert(`
       Mobile/Touchscreen support added\n
       Added extra options
-      `)
+      `);
     }
   }
 ]
@@ -87,7 +84,7 @@ function menuButtonClick(e) {
   for (let i = 0; i < options.length; i++) {
     var o = options[i];
     if (pos.x > o.x && o.x < o.x + optionsButtonWidth && pos.y > o.y - optionsButtonFontSize && pos.y < o.y + optionsButtonHeight - optionsButtonFontSize) {
-      // open option?
+      o.action();
     }
   }
 }
