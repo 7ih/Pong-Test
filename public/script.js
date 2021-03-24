@@ -573,11 +573,13 @@ mp.start = function() {
 
         paddleX = posX;
         socket.emit('paddleMove', paddleX);
+        console.log("cursormove")
       }
     }
     function getStartXTouch(e) {
       touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width;
       e.preventDefault();
+      console.log("touch")
     }
     function paddleMoveTouch(e){
       var touchobj = e.changedTouches[0];
@@ -588,6 +590,7 @@ mp.start = function() {
       socket.emit('paddleMove', paddleX);
 
       e.preventDefault();
+      console.log("move")
     }
     function pauseOnPageBlur() {
       if (document.visibilityState === "hidden") {
