@@ -318,8 +318,12 @@ sp.start = function() {
   function movePaddleTouch(e){
     if (gameActive) {
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
+      var pos = posX + dist;
 
-      paddleX = posX + dist;
+      if (pos < -paddleWidth) pos = canvas.width;
+      else if (pos > canvas.width) pos = -paddleWidth;
+
+      paddleX = pos;
     }
     e.preventDefault();
   }
@@ -584,8 +588,12 @@ mp.start = function() {
     }
     function paddleMoveTouch(e){
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
-  
-      paddleX = posX + dist;
+      var pos = posX + dist;
+
+      if (pos < -paddleWidth) pos = canvas.width;
+      else if (pos > canvas.width) pos = -paddleWidth;
+
+      paddleX = pos;
       socket.emit('paddleMove', paddleX);
       e.preventDefault();
     }
