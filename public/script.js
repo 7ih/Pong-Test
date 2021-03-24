@@ -295,13 +295,19 @@ sp.start = function() {
     if (gameActive) requestAnimationFrame(draw);
   }
 
-  function movePaddle(e) {
+  function movePaddleMouse(e) {
     if (document.pointerLockElement === canvas && gameActive) {
       posX += e.movementX;
 
       if (posX < -paddleWidth) posX = canvas.width;
       else if (posX > canvas.width) posX = -paddleWidth;
 
+      paddleX = posX;
+    }
+  }
+  function movePaddleTouch(e){
+    if (gameActive) {
+      posX = e.changedTouches[0].pageX;
       paddleX = posX;
     }
   }
@@ -316,7 +322,8 @@ sp.start = function() {
     if (document.pointerLockElement !== canvas) gameActive = false;
   }
 
-  canvas.addEventListener('mousemove', movePaddle);
+  canvas.addEventListener('mousemove', movePaddleMouse);
+  canvas.body.addEventListener('touchstart', movePaddleTouch);
   canvas.addEventListener('click', pointerLock);
   document.addEventListener('pointerlockchange', pauseOnUnfocus);
 
@@ -545,7 +552,7 @@ mp.start = function() {
       requestAnimationFrame(draw);
     }
 
-    function paddleMove(e) {
+    function paddleMoveMouse(e) {
       if (document.pointerLockElement === canvas) {
         posX += e.movementX;
 
@@ -555,6 +562,12 @@ mp.start = function() {
         paddleX = posX;
         socket.emit('paddleMove', paddleX);
       }
+    }
+    function paddleMoveTouch(e){
+      posX = e.changedTouches[0].pageX;
+
+      paddleX = posX;
+      socket.emit('paddleMove', paddleX);
     }
     function pauseOnPageBlur() {
       if (document.visibilityState === "hidden") {
@@ -568,7 +581,8 @@ mp.start = function() {
       }
     }
 
-    canvas.addEventListener('mousemove', paddleMove);
+    canvas.addEventListener('mousemove', paddleMoveMouse);
+    canvas.body.addEventListener('touchstart', paddleMoveTouch);
     document.addEventListener('visibilitychange', pauseOnPageBlur);
     canvas.addEventListener('click', pointerLock);
 
