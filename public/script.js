@@ -321,12 +321,11 @@ sp.start = function() {
       var pos = posX + dist;
 
       if (pos < -paddleWidth) {
-        pos = canvas.width;
-        touchStartX = pos;
+        pos = posX = canvas.width;
       } else if (pos > canvas.width) {
-        pos = -paddleWidth;
-        touchStartX = pos;
+        pos = posX = -paddleWidth;
       }
+      console.log(pos);
 
       paddleX = pos;
     }
