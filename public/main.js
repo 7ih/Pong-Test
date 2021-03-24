@@ -24,11 +24,13 @@ var paddleSpeed = (
 var modes = [
   sp = {
     text: 'Singleplayer',
+    start: ()=>{ singleplayer(); },
     x: 0,
     y: 0
   },
   mp = {
     text: 'Multiplayer',
+    start: ()=>{ multiplayer(); },
     x: 0,
     y: 0
   }
@@ -172,9 +174,6 @@ function showMenu() {
   canvas.addEventListener('mousemove', menuButtonHover);
   canvas.addEventListener('click', menuButtonClick);
 }
-
-sp.start = singleplayer();
-mp.start = multiplayer();
 
 canvas.oncontextmenu = function() { return false; }
 document.body.onresize = function() { bounds = canvas.getBoundingClientRect(); }
