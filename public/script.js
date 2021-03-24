@@ -40,18 +40,20 @@ var options = [
     x: 0,
     y: 0,
     action: function() {
-      var input = prompt("Set paddle speed (choose a number 0.25 to 5)", paddleSpeed);
+      var input = prompt("Set paddle speed (choose a number 0.1 to 5)", paddleSpeed);
+      if (!input) return;
       if (isNaN(input)) {
         alert("I ASKED FOR A NUMBER");
         return;
       }
       var num = Math.round((+input+Number.EPSILON)*100) / 100;
-      if (num < 0.25 || num > 5) {
+      if (num < 0.1 || num > 5) {
         alert("LEARN TO FOLLOW DIRECTIONS");
         return;
       }
       paddleSpeed = num;
       document.cookie = `pspeed=${num}; expires=Tue, 19 Jan 2038 03:14:07 UTC`;
+      alert("Set paddle speed to " + paddleSpeed);
     }
   },
   test1 = {
@@ -61,8 +63,7 @@ var options = [
     action: function() {
       alert(`
       Mobile/Touchscreen support added
-      Added extra options
-      `);
+      Added extra options`);
     }
   }
 ]
