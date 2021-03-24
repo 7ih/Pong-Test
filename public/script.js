@@ -315,12 +315,9 @@ sp.start = function() {
   }
   function movePaddleTouch(e){
     if (gameActive) {
-      posX = e.changedTouches[0].pageX;
-      paddleX = posX;
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
-
-      posX += dist;
-      paddleX = posX;
+      console.log("finger pos: " + e.changedTouches[0].clientX/bounds.width*canvas.width + " || Start pos: " + touchStartX + " || dist: " + dist);
+      paddleX = posX + dist;
     }
     e.preventDefault();
   }
