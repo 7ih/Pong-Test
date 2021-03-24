@@ -58,7 +58,7 @@ var options = [
       alert("Set paddle speed to " + paddleSpeed);
     }
   },
-  test1 = {
+  cl = {
     text: "Changelog",
     x: 0,
     y: 0,
@@ -72,8 +72,8 @@ var options = [
 
 function menuButtonClick(e) {
   var pos = {
-    x: e.clientX / bounds.width * canvas.width,
-    y: e.clientY / bounds.height * canvas.height
+    x: (e.clientX / bounds.width * canvas.width) || (e.changedTouches[0].clientX/bounds.width*canvas.width),
+    y: e.clientY / bounds.height * canvas.height || (e.changedTouches[0].clientY/bounds.height*canvas.height)
   };
 
   for (let i = 0; i < modes.length; i++) {
@@ -115,6 +115,7 @@ function menuButtonHover(e) {
 }
 
 function showMenu() {
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   logo = new Image();
@@ -173,6 +174,7 @@ function showMenu() {
 
   canvas.addEventListener('mousemove', menuButtonHover);
   canvas.addEventListener('click', menuButtonClick);
+  canvas.addEventListener('touchmove', menuButtonClick);
 }
 
 canvas.oncontextmenu = function() { return false; }
