@@ -33,7 +33,32 @@ var options = [
     text: "Paddle Speed",
     x: 0,
     y: 0
-  }
+  },
+  test1 = {
+    text: "test",
+    x: 0,
+    y: 0
+  },
+  test2 = {
+    text: "test",
+    x: 0,
+    y: 0
+  },
+  test3 = {
+    text: "test",
+    x: 0,
+    y: 0
+  },
+  test4 = {
+    text: "test",
+    x: 0,
+    y: 0
+  },
+  test5 = {
+    text: "test",
+    x: 0,
+    y: 0
+  },
 ]
 
 function menuButtonClick(e) {
