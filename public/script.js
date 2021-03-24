@@ -336,6 +336,7 @@ sp.start = function() {
   canvas.addEventListener('mousemove', movePaddleMouse);
   canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
   canvas.addEventListener('touchmove', movePaddleTouch);
+  canvas.addEventListener('touchleave', function(){ posX = paddleX }); // keep pos consistent
   canvas.addEventListener('click', pointerLock);
   document.addEventListener('pointerlockchange', pauseOnUnfocus);
 
@@ -574,24 +575,18 @@ mp.start = function() {
 
         paddleX = posX;
         socket.emit('paddleMove', paddleX);
-        console.log("cursormove")
       }
     }
     function getStartXTouch(e) {
       touchStartX = e.changedTouches[0].clientX/bounds.width*canvas.width;
       e.preventDefault();
-      console.log("touch")
     }
     function paddleMoveTouch(e){
-      var touchobj = e.changedTouches[0];
-      var dist = touchobj.clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
-
-      posX += dist;
-      paddleX = posX;
+      var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
+  
+      paddleX = posX + dist;
       socket.emit('paddleMove', paddleX);
-
       e.preventDefault();
-      console.log("move")
     }
     function pauseOnPageBlur() {
       if (document.visibilityState === "hidden") {
@@ -608,6 +603,7 @@ mp.start = function() {
     canvas.addEventListener('mousemove', paddleMoveMouse);
     canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
     canvas.addEventListener('touchstart', paddleMoveTouch);
+    canvas.addEventListener('touchleave', function(){ posX = paddleX }); // keep pos consistent
     document.addEventListener('visibilitychange', pauseOnPageBlur);
     canvas.addEventListener('click', pointerLock);
 
