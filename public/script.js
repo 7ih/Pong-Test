@@ -223,7 +223,7 @@ sp.start = function() {
       }
     }
 
-    gameCanRun = tre
+    gameCanRun = true
     requestAnimationFrame(draw);
   }
 
