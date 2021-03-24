@@ -8,12 +8,18 @@ var buttonFontSize = 64;
 var buttonScreenTopMargin = 150
 
 var optionsButtonWidth = 200;
-var optionsButtonHeight = 36;
+var optionsButtonHeight = 46;
 var optionsButtonFontSize = 32;
-var optionsButtonScreenTopMargin = 550
+var optionsButtonScreenTopMargin = 510
 
 var buttonScreenLeftMargin = 64;
 var buttonMargin = 10;
+
+var paddleSpeed = (
+  document.cookie.split('; ').find(row => row.startsWith('pspeed='))
+    ? document.cookie.split('; ').find(row => row.startsWith('pspeed=')).split('=')[1]
+    : 1
+);
 
 var modes = [
   sp = {
@@ -32,33 +38,35 @@ var options = [
   ps = {
     text: "Paddle Speed",
     x: 0,
-    y: 0
+    y: 0,
+    action: function() {
+      if (isNaN( prompt("Set paddle speed (choose a number 0.25 to 5)", paddleSpeed) )) {
+        alert("I ASKED FOR A NUMBER");
+        return;
+      }
+
+      var num = Math.round((+sign+Number.EPSILON)*100) / 100;
+
+      if (num < 0.25 || num > 5) {
+        alert("LEARN TO FOLLOW DIRECTIONS");
+        return;
+      }
+
+      paddleSpeed = num;
+      document.cookie = `pspeed=${num}; expires=Tue, 19 Jan 2038 03:14:07 UTC`;
+    }
   },
   test1 = {
-    text: "test",
+    text: "Changelog",
     x: 0,
-    y: 0
-  },
-  test2 = {
-    text: "test",
-    x: 0,
-    y: 0
-  },
-  test3 = {
-    text: "test",
-    x: 0,
-    y: 0
-  },
-  test4 = {
-    text: "test",
-    x: 0,
-    y: 0
-  },
-  test5 = {
-    text: "test",
-    x: 0,
-    y: 0
-  },
+    y: 0,
+    action: function() {
+      alert(`
+      Mobile/Touchscreen support added\n
+      Added extra options
+      `)
+    }
+  }
 ]
 
 function menuButtonClick(e) {
@@ -383,7 +391,7 @@ sp.start = function() {
 
   function movePaddleMouse(e) {
     if (document.pointerLockElement === canvas && gameActive) {
-      posX += e.movementX;
+      posX += e.movementX*paddleSpeed;
 
       if (posX < -paddleWidth) posX = canvas.width;
       else if (posX > canvas.width) posX = -paddleWidth;
@@ -403,7 +411,7 @@ sp.start = function() {
   function movePaddleTouch(e){
     if (gameActive) {
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
-      var pos = posX + dist;
+      var pos = posX + dist*paddleSpeed;
 
       if (pos < -paddleWidth) {
         pos = canvas.width;
@@ -662,7 +670,7 @@ mp.start = function() {
 
     function paddleMoveMouse(e) {
       if (document.pointerLockElement === canvas) {
-        posX += e.movementX;
+        posX += e.movementX*paddleSpeed;
 
         if (posX < -paddleWidth) posX = canvas.width;
         else if (posX > canvas.width) posX = -paddleWidth;
@@ -678,7 +686,7 @@ mp.start = function() {
     }
     function paddleMoveTouch(e){
       var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
-      var pos = posX + dist;
+      var pos = posX + dist*paddleSpeed;
 
       if (pos < -paddleWidth) {
         pos = canvas.width;
