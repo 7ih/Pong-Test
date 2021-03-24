@@ -336,7 +336,7 @@ sp.start = function() {
   canvas.addEventListener('mousemove', movePaddleMouse);
   canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
   canvas.addEventListener('touchmove', movePaddleTouch);
-  canvas.addEventListener('touchleave', function(){ posX = paddleX }); // keep pos consistent
+  canvas.addEventListener('touchleave', function(){ posX = paddleX; console.log(posX); }); // keep pos consistent
   canvas.addEventListener('click', pointerLock);
   document.addEventListener('pointerlockchange', pauseOnUnfocus);
 
