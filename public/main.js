@@ -99,7 +99,7 @@ function menuButtonClick(e) {
   }
   for (let i = 0; i < options.length; i++) {
     var o = options[i];
-    if (pos.x > o.x && o.x < o.x + optionsButtonWidth && pos.y > o.y - optionsButtonFontSize && pos.y < o.y + optionsButtonHeight - optionsButtonFontSize) {
+    if (pos.x > o.x && pos.x < o.x + optionsButtonWidth && pos.y > o.y - optionsButtonFontSize && pos.y < o.y + optionsButtonHeight - optionsButtonFontSize) {
       o.action();
     }
   }
@@ -132,9 +132,9 @@ function showMenu() {
 
   logo = new Image();
   logo.src = 'img/logo.png';
-  logo.width = "600";
-  logo.height = "250";
-  logo.onload = function() { ctx.drawImage(logo, canvas.width / 2, 20); }
+  logo.width = "550";
+  logo.height = "200";
+  logo.onload = function() { ctx.drawImage(logo, canvas.width - logo.width, buttonScreenTopMargin); }
 
   for (let i = 0; i < modes.length; i++) {
     var m = modes[i];
