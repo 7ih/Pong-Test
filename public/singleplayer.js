@@ -152,9 +152,9 @@ function singleplayer() {
         h: 40,
       }, "red");
       ctx.beginPath();
-      ctx.moveTo(canvas.width - 20, 5);
+      ctx.moveTo(canvas.width - 5, 20);
       ctx.lineTo(canvas.width - 35, 35);
-      ctx.lineTo(canvas.width - 5, 35);
+      ctx.lineTo(canvas.width - 35, 5);
       ctx.fillStyle = "blue";
       ctx.fill();
     }
