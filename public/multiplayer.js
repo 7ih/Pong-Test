@@ -243,7 +243,7 @@ function multiplayer() {
       }
       function paddleMoveTouch(e){
         var dist = paddleSpeed*(e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX); // calculate dist traveled by touch point
-        var pos = posX + dist*paddleSpeed;
+        var pos = posX + dist;
   
         if (pos < -paddleWidth) {
           pos = canvas.width;
