@@ -236,7 +236,7 @@ function multiplayer() {
         e.preventDefault();
       }
       function paddleMoveTouch(e){
-        var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
+        var dist = paddleSpeed*(e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX); // calculate dist traveled by touch point
         var pos = posX + dist*paddleSpeed;
   
         if (pos < -paddleWidth) {
