@@ -1,6 +1,6 @@
 function multiplayer() {
     var gamePlaying = true;
-    var gameActive = undefined;
+    var gameActive;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   
     var messageCount = 1;
@@ -21,8 +21,14 @@ function multiplayer() {
     function exitMatch(msg) {
       gamePlaying = false;
       socket.close();
+
+      canvas.addEventListener('mousemove', paddleMoveMouse);
+      canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
+      canvas.addEventListener('touchmove', paddleMoveTouch);
+
       canvas.removeEventListener("click", pointerLock);
       document.exitPointerLock();
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       text({
         text: msg, 
