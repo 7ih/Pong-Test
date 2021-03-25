@@ -167,7 +167,7 @@ function singleplayer() {
           dy *= 1.01;
           dx *= 1.01;
         }
-  
+        
         if (bricksTotal <= 0) {
           for (var c = 0; c < brickColumnCount; c++) {
             for (var r = 0; r < brickRowCount; r++) {
@@ -177,8 +177,7 @@ function singleplayer() {
           bricksTotal = brickColumnCount * brickRowCount;
         }
       }
-  
-      if (y > canvas.height - ballRadius - paddleElevation - paddleHeight + 10) {
+      else if (y > canvas.height - ballRadius - paddleElevation - paddleHeight) {
         gameActive = false;
         gameCanRun = false;
         if (score > highscore) {
@@ -233,8 +232,8 @@ function singleplayer() {
     }
     function movePaddleTouch(e){
       if (gameActive) {
-        var dist = e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX; // calculate dist traveled by touch point
-        var pos = posX + dist*paddleSpeed;
+        var dist = paddleSpeed*(e.changedTouches[0].clientX/bounds.width*canvas.width - touchStartX); // calculate dist traveled by touch point
+        var pos = posX + dist;
   
         if (pos < -paddleWidth) {
           pos = canvas.width;
