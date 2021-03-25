@@ -143,6 +143,20 @@ function singleplayer() {
       requestAnimationFrame(draw);
     }
   
+    function drawExitButton() {
+      rect({
+        x: canvas.width - 40,
+        y: 40,
+        w: 40,
+        h: 40,
+      }, "red");
+      ctx.beginPath();
+      ctx.moveTo(canvas.width - 20, 5);
+      ctx.lineTo(canvas.width - 35, 35);
+      ctx.lineTo(canvas.width - 5, 35);
+      ctx.fill();
+    }
+
     function draw() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
   
@@ -208,6 +222,8 @@ function singleplayer() {
       x += dx;
       y += dy;
   
+      drawExitButton();
+
       if (gameActive) requestAnimationFrame(draw);
     }
   
