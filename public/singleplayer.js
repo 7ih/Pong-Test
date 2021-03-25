@@ -146,7 +146,7 @@ function singleplayer() {
     function drawExitButton() {
       rect({
         x: canvas.width - 40,
-        y: 40,
+        y: 0,
         w: 40,
         h: 40,
       }, "red");
@@ -154,6 +154,7 @@ function singleplayer() {
       ctx.moveTo(canvas.width - 20, 5);
       ctx.lineTo(canvas.width - 35, 35);
       ctx.lineTo(canvas.width - 5, 35);
+      ctx.fillStyle = "blue";
       ctx.fill();
     }
 
@@ -227,6 +228,21 @@ function singleplayer() {
       if (gameActive) requestAnimationFrame(draw);
     }
   
+    function exitButtonClick() {
+      var pos = {
+        x: e.changedTouches ? e.changedTouches[0].clientX/bounds.width*canvas.width : e.clientX/bounds.width*canvas.width,
+        y: e.changedTouches ? e.changedTouches[0].clientY/bounds.height*canvas.height : e.clientY/bounds.height*canvas.height
+      };
+    
+      if (pos.x > canvas.width - 40 && pos.y < canvas.height - 40) {
+        gamePlaying = false;
+        canvas.removeEventListener("click", pointerLock);
+        document.exitPointerLock();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        showMenu();
+      }
+    }
+
     function movePaddleMouse(e) {
       if (document.pointerLockElement === canvas && gameActive) {
         posX += e.movementX*paddleSpeed;
@@ -274,9 +290,12 @@ function singleplayer() {
       if (document.pointerLockElement !== canvas) gameActive = false;
     }
   
+    canvas.addEventListener('touchstart', exitButtonClick);
+    canvas.addEventListener('click', exitButtonClick);
+
     canvas.addEventListener('mousemove', movePaddleMouse);
     canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
-    canvas.addEventListener('touchmove', movePaddleTouch);
+    canvas.addEventListener('click', pointerLock);
     canvas.addEventListener('click', pointerLock);
     document.addEventListener('pointerlockchange', pauseOnUnfocus);
   
