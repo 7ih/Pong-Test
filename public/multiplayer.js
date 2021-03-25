@@ -199,7 +199,7 @@ function multiplayer() {
           }
           socket.emit('hitBall', canvas.height - y + ballRadius, dx, -dy);
         }
-        if (y > canvas.height - ballRadius - paddleElevation - paddleHeight + 10) {
+        else if (y > canvas.height - ballRadius - paddleElevation - paddleHeight) {
           var ballX = Math.random() * 4 + 1.5;
           socket.emit('scored', ballX);
           opponentScore++;
