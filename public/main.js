@@ -1,4 +1,4 @@
-var canvas = document.getElementById('gameCanvas'); 
+var canvas = document.getElementById('gameCanvas');
 var ctx = canvas.getContext('2d');
 var bounds = canvas.getBoundingClientRect();
 
@@ -130,7 +130,7 @@ function showMenu() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   logo = new Image();
-  logo.onload = function() { ctx.drawImage(logo, 550, 80); }
+  logo.onload = function() { ctx.drawImage(logo, 500, 65); }
   logo.src = 'img/logo.png';
 
   for (let i = 0; i < modes.length; i++) {
