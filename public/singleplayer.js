@@ -1,7 +1,7 @@
 function singleplayer() {
-
     var gameActive = false;
     var gameCanRun = true;
+    var oneFrame = true;
     var score = 0;
     var highscore = (
       document.cookie.split('; ').find(row => row.startsWith('highscore='))
@@ -140,6 +140,7 @@ function singleplayer() {
       }
   
       gameCanRun = true
+      oneFrame = true;
       requestAnimationFrame(draw);
     }
   
@@ -159,6 +160,9 @@ function singleplayer() {
     }
 
     function draw() {
+      if (!oneFrame) 
+        if (!gameActive) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
   
       collisionDetection();
@@ -225,7 +229,12 @@ function singleplayer() {
   
       drawExitButton();
 
-      if (gameActive) requestAnimationFrame(draw);
+      if (oneFrame) {
+        oneFrame = false;
+        return;
+      } 
+      
+      requestAnimationFrame(draw);
     }
   
     function exitButtonClick(e) {
@@ -235,8 +244,7 @@ function singleplayer() {
       };
     
       if (pos.x > canvas.width - 40 && pos.y < canvas.height - 40) {
-        gamePlaying = false;
-        gameCanRun = false;
+        gameActive = false;
 
         canvas.removeEventListener('touchstart', exitButtonClick);
         canvas.removeEventListener('click', exitButtonClick);
@@ -246,7 +254,7 @@ function singleplayer() {
 
         canvas.removeEventListener("click", pointerLock);
         document.exitPointerLock();
-        
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         showMenu();
       }
