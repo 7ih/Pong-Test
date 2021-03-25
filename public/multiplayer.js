@@ -1,5 +1,4 @@
 function singleplayer() {
-
     var gameActive = false;
     var gameCanRun = true;
     var score = 0;
@@ -159,6 +158,8 @@ function singleplayer() {
     }
 
     function draw() {
+      if (!gameActive) return;
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
   
       collisionDetection();
@@ -225,7 +226,7 @@ function singleplayer() {
   
       drawExitButton();
 
-      if (gameActive) requestAnimationFrame(draw);
+      requestAnimationFrame(draw);
     }
   
     function exitButtonClick(e) {
