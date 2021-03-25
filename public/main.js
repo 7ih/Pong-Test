@@ -72,8 +72,8 @@ var options = [
 
 function menuButtonClick(e) {
   var pos = {
-    x: (e.changedTouches[0].clientX/bounds.width*canvas.width) || (e.clientX / bounds.width * canvas.width),
-    y: (e.changedTouches[0].clientY/bounds.height*canvas.height) || (e.clientY / bounds.height * canvas.height)
+    x: e.changedTouches ? e.changedTouches[0].clientX/bounds.width*canvas.width : e.clientX / bounds.width * canvas.width,
+    y: e.changedTouches ? e.changedTouches[0].clientY/bounds.height*canvas.height : e.clientY / bounds.height * canvas.height
   };
 
   for (let i = 0; i < modes.length; i++) {
