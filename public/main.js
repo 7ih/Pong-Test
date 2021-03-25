@@ -196,7 +196,6 @@ function rect(prop, color) {
   ctx.rect(prop.x, prop.y, prop.w, prop.h);
   ctx.fillStyle = color;
   ctx.fill();
-  ctx.closePath();
 }
 function text(prop) {
   ctx.font = `${prop.size} ${prop.font ? prop.font : "Arial"}`;
