@@ -236,8 +236,17 @@ function singleplayer() {
     
       if (pos.x > canvas.width - 40 && pos.y < canvas.height - 40) {
         gamePlaying = false;
+        gameCanRun = false;
+
+        canvas.removeEventListener('touchstart', exitButtonClick);
+        canvas.removeEventListener('click', exitButtonClick);
+        canvas.removeEventListener('mousemove', movePaddleMouse);
+        canvas.removeEventListener('touchstart', getStartXTouch);
+        canvas.removeEventListener('touchmove', movePaddleTouch);
+
         canvas.removeEventListener("click", pointerLock);
         document.exitPointerLock();
+        
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         showMenu();
       }
