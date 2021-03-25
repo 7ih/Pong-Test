@@ -130,7 +130,7 @@ function showMenu() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   logo = new Image();
-  logo.onload = function() { ctx.drawImage(logo, 300, 50); }
+  logo.onload = function() { ctx.drawImage(logo, 550, 80); }
   logo.src = 'img/logo.png';
 
   for (let i = 0; i < modes.length; i++) {
