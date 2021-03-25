@@ -295,7 +295,7 @@ function singleplayer() {
 
     canvas.addEventListener('mousemove', movePaddleMouse);
     canvas.addEventListener('touchstart', getStartXTouch); // get start position for touchmove
-    canvas.addEventListener('click', pointerLock);
+    canvas.addEventListener('touchmove', movePaddleTouch);
     canvas.addEventListener('click', pointerLock);
     document.addEventListener('pointerlockchange', pauseOnUnfocus);
   
