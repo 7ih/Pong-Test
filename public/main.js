@@ -67,6 +67,17 @@ var options = [
       Mobile/Touchscreen support added
       Added extra options`);
     }
+  },
+  info = {
+    text: "Info",
+    x: 0,
+    y: 0,
+    action: function() {
+      alert(`
+      My first browser game! No CSS (except for positioning the Canvas).
+      Created by https://github.com/7ih
+      Multiplayer library: https://socket.io`);
+    }
   }
 ]
 
@@ -121,6 +132,8 @@ function showMenu() {
 
   logo = new Image();
   logo.src = 'img/logo.png';
+  logo.width = "600";
+  logo.height = "250";
   logo.onload = function() { ctx.drawImage(logo, canvas.width / 2, 20); }
 
   for (let i = 0; i < modes.length; i++) {
