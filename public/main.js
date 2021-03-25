@@ -75,8 +75,8 @@ var options = [
     action: function() {
       alert(`
       My first browser game! No CSS (except for positioning the Canvas).
-      Created by https://github.com/7ih
-      Multiplayer library: https://socket.io`);
+      Created by 7ih on Github
+      Multiplayer library: socket.io`);
     }
   }
 ]
@@ -131,10 +131,10 @@ function showMenu() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   logo = new Image();
-  logo.src = 'img/logo.png';
+  logo.onload = function() { ctx.drawImage(logo, canvas.width - logo.width - buttonMargin, buttonScreenTopMargin - logo.height/2); }
   logo.width = "550";
   logo.height = "200";
-  logo.onload = function() { ctx.drawImage(logo, canvas.width - logo.width, buttonScreenTopMargin); }
+  logo.src = 'img/logo.png';
 
   for (let i = 0; i < modes.length; i++) {
     var m = modes[i];
