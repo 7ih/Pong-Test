@@ -72,8 +72,8 @@ var options = [
 
 function menuButtonClick(e) {
   var pos = {
-    x: (e.clientX / bounds.width * canvas.width) || (e.changedTouches[0].clientX/bounds.width*canvas.width),
-    y: e.clientY / bounds.height * canvas.height || (e.changedTouches[0].clientY/bounds.height*canvas.height)
+    x: (e.changedTouches[0].clientX/bounds.width*canvas.width) || (e.clientX / bounds.width * canvas.width),
+    y: (e.changedTouches[0].clientY/bounds.height*canvas.height) || (e.clientY / bounds.height * canvas.height)
   };
 
   for (let i = 0; i < modes.length; i++) {
@@ -81,6 +81,7 @@ function menuButtonClick(e) {
     if (pos.x > m.x && pos.x < m.x + buttonWidth && pos.y > m.y - buttonFontSize && pos.y < m.y + buttonHeight - buttonFontSize) {
       canvas.removeEventListener('mousemove', menuButtonHover);
       canvas.removeEventListener('click', menuButtonClick);
+      canvas.removeEventListener('touchmove', menuButtonClick);
       canvas.style.cursor = "default";
       m.start();
     }
